@@ -231,3 +231,9 @@ app.listen(port, () => { // listen method assigns a port number to a server
 })
 
 //using patch is more efficient than put because patch uses a single request to update a database while put uses mutliple request to update data 
+//Class = ES6 Feauture provides a more structured and cleaner way to work with objects, compared to traditional constructor functions ex. static keyword, encapsulation, inheritance
+
+//model is an object
+
+//create a class (an object) => Generate a controller for the class that allows CRUD
+//Build the views
