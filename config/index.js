@@ -18,3 +18,5 @@ connection.on('connection', (pool) => { // make use of on to ensure dbconnection
 export {
     connection
 }
+
+//could name config.js 

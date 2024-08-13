@@ -17,8 +17,9 @@ express.urlencoded ({
 extended: true
 })) //application level middelware
 
-//If not specified the rqst body will be empty
-router.use(bodyParser.json())
+//If not specified the rqst body will be empty/ not be able to read the data
+//if you have a form the content of the form will be rqst body 
+router.use(bodyParser.json()) // rqst.body pipeline where we reetriev data from user 
 // Endpoint
 router.get('^/$|/eShop', (req, res) => {
     res.status(200).sendFile(path.resolve('./static/html/index.html'))
@@ -27,7 +28,7 @@ router.get('^/$|/eShop', (req, res) => {
 router.get('/users', (req, res) => {
 try {
 const strQry = `
-SELECT firstname, lastName, age, emailAdd
+SELECT firstname, lastName, age, emailAdd, userRole, ProfileURL
 FROM Users;`
 db.query(strQry, (err, results) => {
     if(err)  throw new Error(`Unable to fetch all users`) 
@@ -42,28 +43,41 @@ db.query(strQry, (err, results) => {
     })
 }
 })
-// Fetching a single user
-router.get('/user/:id', (req, res) => {  //:id is a placeholder user will specify the id
-try {
-    const strQry = `
-    SELECT userID, firstname, lastName, age, emailAdd
-    FROM Users
-    WHERE userID = ${req.params.id};`
-    db.query(strQry, (err, result) => {
-        if(err) throw new Error ('Unable to retreive user.')
-            res.json({
-                status: res.statusCode, 
-                result: result[0]
+// Fetching a single user //:id is a placeholder user will specify the id
+router.get('/user/:id', (req, res) => {
+    try {
+        const strQry = `
+        SELECT userID, firstName, lastName, age, emailAdd, userRole, ProfileURL
+        FROM Users
+        WHERE userID = ${req.params.id};
+        `
+        db.query(strQry, (err, result) => {
+            if (err) {
+                res.json({
+                    status: 404,
+                    msg: 'Issue when retrieving a user.'
+                })
+            }
+            if (!result.length) {
+                res.json({
+                    status: 404,
+                    msg: 'Incorrect ID was used.'
+                })
+            } else { 
+                res.json({
+                    status: res.statusCode,
+                    result: result[0]
+                })
+            } 
         })
-    })
-    
-} catch(e) {
-    res.json({
-        status: 404,
-        msg: e.message 
-    })
-}
+    } catch (e) {
+        res.json({
+            status: 404,
+            msg: 'Please try again later.'
+        })
+    }
 })
+
 // Register / Add a user
 router.post('/register', async(req, res) => {
 try {
@@ -152,11 +166,12 @@ res.json({
 }
 })
 
+//User Login
 router.post('/login', (req, res) => {
   try{
   const { emailAdd, pwd } = req.body
   const strQry = `
-  SELECT userID, firstName, lastName, age, emailAdd, pwd 
+  SELECT userID, firstName, lastName, age, emailAdd, pwd, userRole, ProfileURL
   FROM Users
   WHERE emailAdd = '${emailAdd}';
   `
@@ -198,7 +213,7 @@ router.post('/login', (req, res) => {
 res.json({
     status: 404,
     msg: e.message
-})
+}) 
   }
 })
 
@@ -214,3 +229,5 @@ res.json({
 app.listen(port, () => { // listen method assigns a port number to a server
     console.log(`Server is running on ${port}`)
 })
+
+//using patch is more efficient than put because patch uses a single request to update a database while put uses mutliple request to update data 
