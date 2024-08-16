@@ -9,5 +9,5 @@ export {
     products
 }
 
-
+//in order to access the methods from the class we need to use objects, 
 

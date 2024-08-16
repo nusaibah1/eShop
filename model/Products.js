@@ -20,7 +20,7 @@ res.json({
 })
         }
     }
-recentProduct(req, res) {
+recentProducts(req, res) {
         try{
             const strQry = `
             SELECT productID, prodName, category, prodDescription, prodURL, amount
@@ -120,6 +120,7 @@ msg: 'The product was succesfully removed from the database.'})
     }
 }
 }
+
 export {
     Products
 }
