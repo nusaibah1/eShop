@@ -13,14 +13,13 @@
 
 <script>
 
-    export default {
-components: {
-name: "CardComp"
 
-}
-    
+export default {
 
-}
+    name: 'CardComp',
+   
+
+} 
 </script>
 
 <style scoped>
