@@ -20,22 +20,22 @@ productRouter.get('/recent', (req, res) => {
 })
 
 //Rerieve Single Product
-productRouter.get('/:id', verifyAToken, (req, res) => {
+productRouter.get('/:id', verifyAToken, (req, res) => {  
     products.fetchProduct(req, res)
 })
 
 // Add product
-productRouter.post('/add', verifyAToken, (req, res) => {
+productRouter.post('/add', verifyAToken,  (req, res) => {  
     products.addProduct(req, res)
 })
 
 //Update product
-productRouter.patch('/:id', verifyAToken, (req, res) => {
+productRouter.patch('/:id', verifyAToken,  (req, res) => { 
     products.updateProduct(req, res)
 })
 
 //Delete Product
-productRouter.delete('/:id', verifyAToken, (req, res) => {
+productRouter.delete('/:id',  (req, res) => { //verifyAToken,
     products.deleteProduct(req, res)
 })
 
