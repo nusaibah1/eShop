@@ -1,36 +1,36 @@
-import {userRouter, express} from './controller/UserController.js'
-import { productRouter} from './controller/ProductsController.js'
-import express from 'express'
+import { userRouter, express } from './controller/UserController.js'
+import { productRouter } from './controller/ProductsController.js'
 import path from 'path'
 
-// Create express app
-const app = express()  
+// Create an express app
+const app = express()
 const port = +process.env.PORT || 4000
-const router = express.Router()
 
-//Middelware anything between sending a request and retrieving a response
-app.use(router, //allows for dynamic routing
-'/user', userRouter,
-'/product', productRouter,
-express.static('./static'),
-express.json(),
-express.urlencoded ({
-extended: true
-})) //application level middelware
-
+// Middleware
+app.use('/user', userRouter)
+app.use('/product', productRouter)
+app.use(
+    express.static('./static'),
+    express.json(),
+    express.urlencoded({
+     extended: true
+    }))
 
 
 
-
-router.get('^/$|/eShop', (req, res) => {
+app.get('^/$|/eShop', (req, res) => {
     res.status(200).sendFile(path.resolve('./static/html/index.html'))
 })
 
+app.get('*', (req, res) => {
+    res.json({
+        status: 404,
+        msg: 'Resource not found'
+    })
+})
 
-
-
-app.listen(port, () => { // listen method assigns a port number to a server
-    console.log(`Server is running on ${port}`)
+app.listen(port, () => {
+    console.log(`Server is running on ${port}`);
 })
 
 //using patch is more efficient than put because patch uses a single request to update a database while put uses mutliple request to update data 
