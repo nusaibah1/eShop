@@ -26,5 +26,8 @@ export default {
 
 .card{
  width: 18rem;
+ display: grid;
+ grid-template-rows: repeat( 2, 1fr);
+
 }
 </style>
