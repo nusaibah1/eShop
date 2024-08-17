@@ -35,7 +35,7 @@ productRouter.patch('/:id', verifyAToken,  (req, res) => {
 })
 
 //Delete Product
-productRouter.delete('/:id',  (req, res) => { //verifyAToken,
+productRouter.delete('/:id', verifyAToken, (req, res) => { 
     products.deleteProduct(req, res)
 })
 
