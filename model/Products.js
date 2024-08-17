@@ -80,7 +80,7 @@ SELECT  productID, prodName, category, prodDescription, prodURL, amount
         } catch (e) {
             res.json({
                 status: 404,
-                msg: e.message
+                err: e.message
             })
         }
     }
@@ -100,7 +100,7 @@ WHERE productID = ${req.params.id};`
         } catch (e) {
             res.json({
                 status: 404,
-                msg: e.message
+                err: e.message
             })
         }
     }
@@ -119,7 +119,7 @@ WHERE productID = ${req.params.id};`
         } catch (e) {
             res.json({
                 status: 404,
-                msg: e.message
+                err: e.message
             })
         }
     }
